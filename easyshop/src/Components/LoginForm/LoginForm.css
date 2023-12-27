@@ -1,11 +1,28 @@
-.login-container{
-    background-color: #ffff;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    align-items: center;
-    text-align: center;
-    width: fit-content;
+/* LoginForm.css */
+
+.login-container {
+    max-width: 400px; /* Set the maximum width of the form */
     margin: auto;
-    margin-top: 150px;
-    padding: 50px 50px 50px 50px;
-    margin-bottom: 90px;
-}
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mui-input {
+    border-bottom: 2px solid black;
+    margin-bottom: 10px; /* Increase the bottom margin of each input field */
+  }
+  
+  .mui-input input {
+    width: 100%; /* Make the input fields take 100% width */
+    padding: 10px; /* Increase padding for better readability and appearance */
+    font-size: 16px; /* Increase font size */
+  }
+  
+  .btn {
+    width: 100%; /* Make the button take 100% width */
+    padding: 10px; /* Increase padding for better appearance *
+    font-size: 18px; /* Increase font size */
+  }
+  

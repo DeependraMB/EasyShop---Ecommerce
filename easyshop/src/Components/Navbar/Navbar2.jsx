@@ -1,11 +1,13 @@
 // Navbar2.js
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import Home from "../Home/Home";
+import { useCart } from "../../Context/CartContext";
 
 import "./Navbar.css";
+import Logout from "../Logout/Logout";
 
 const Navbar2 = () => {
   const handleLogout = () => {
@@ -14,20 +16,30 @@ const Navbar2 = () => {
 
   const [username, setUsername] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartCount, setCartCount] = useState(0); // State for cart count
+  //const [cartCount, setCartCount] = useState(0); // State for cart count
   const [cartData, setCartData] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState("");
+  const navigate = useNavigate();
+  const { addCart } = useCart();
 
-  console.log(maxPrice,minPrice,"kkk")
+  const cartCount = addCart.length;
+  console.log(maxPrice, minPrice, "kkk");
 
   useEffect(() => {
     // Fetch user details from localStorage
     const authData = JSON.parse(localStorage.getItem("auth"));
     if (authData) {
-      setUsername(authData.username);
+      setUsername(authData.firstName);
     }
   }, []);
+
+  useEffect(() => {
+    const checkData = localStorage.getItem("auth");
+    if (!checkData) {
+      navigate("/");
+    }
+  }, [username, navigate]);
 
   // Update the cart count based on the items in the cart
   const updateCartCount = async () => {
@@ -85,9 +97,13 @@ const Navbar2 = () => {
           <input
             className="form-control mr-sm-2"
             type="search"
-            placeholder="Search"
+            placeholder="Search Products..."
             aria-label="Search"
-            style={{ width: "300px", marginLeft: "20px" }}
+            style={{
+              width: "300px",
+              marginLeft: "20px",
+              borderBottom: "3px solid black",
+            }}
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -95,21 +111,33 @@ const Navbar2 = () => {
           />
 
           {/* New range input for price */}
-          <div style={{ marginLeft: "20px", float: "left", display: "inline-flex" }}>
-            <label htmlFor="priceRange" style={{ marginRight: "10px" }}>Price Range:</label>
+          <div
+            style={{
+              marginLeft: "20px",
+              float: "left",
+              display: "inline-flex",
+            }}
+          >
+            <label htmlFor="priceRange" style={{ marginRight: "10px" }}>
+              Price Range:
+            </label>
             <input
               type="range"
               id="priceRange"
               min="0"
-              max="5000" // Set the maximum value based on your product price range
+              max="5000" 
               step="10"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
+              style={{color: "black"}}
             />
             <span>${maxPrice}</span>
           </div>
 
-          <div className="navbar-text" style={{ marginLeft: "100px" }}>
+          <div
+            className="navbar-text d-flex align-items-center"
+            style={{ marginLeft: "100px" }}
+          >
             {username ? (
               <>
                 <Link to="/cart" style={{ position: "relative" }}>
@@ -123,6 +151,7 @@ const Navbar2 = () => {
                   >
                     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                   </svg>
+
                   {cartCount > 0 && (
                     <span
                       className="badge badge-danger"
@@ -138,27 +167,25 @@ const Navbar2 = () => {
                     </span>
                   )}
                 </Link>
-                <span style={{ marginRight: "10px", marginLeft: "50px" }}>
-                  Welcome, {username}!
-                </span>
-                <button
-                  className="btn btn-outline-success"
-                  onClick={handleLogout}
+
+                <span
+                  style={{
+                    marginLeft: "50px",
+                    textDecoration: "underline",
+                    fontSize: "20px",
+                  }}
                 >
-                  Logout
-                </button>
+                  Welcome,
+                  <span style={{ fontWeight: "bolder", color: "" }}>
+                    {username}!
+                  </span>
+                </span>
+                <span style={{ marginLeft: "80px" }}>
+                  <Logout varient="dark" />
+                </span>
               </>
             ) : (
-              <>
-                <Link to="/login">
-                  <button className="btn btn-outline-success">Login</button>
-                </Link>
-                <Link to="/signup">
-                  <button className="btn btn-outline-success ml-2">
-                    Signup
-                  </button>
-                </Link>
-              </>
+              <></>
             )}
           </div>
         </div>

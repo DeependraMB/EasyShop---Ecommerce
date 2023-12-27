@@ -10,8 +10,8 @@ function LoginForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-  
-    console.log("handlesubmit Login Called");
+
+    console.log("handlesubmit Login Called", username, password);
     try {
       fetch("https://dummyjson.com/auth/login", {
         method: "POST",
@@ -19,7 +19,6 @@ function LoginForm() {
         body: JSON.stringify({
           username: username,
           password: password,
-          // expiresInMins: 60, // optional
         }),
       })
         .then((res) => {
@@ -30,10 +29,10 @@ function LoginForm() {
         })
         .then((data) => {
           if (data && data.token) {
+            console.log(data);
             localStorage.setItem("auth", JSON.stringify(data));
             navigate("/home");
           } else {
-            // Handle unsuccessful login
             console.error("Login failed:", data);
           }
         })
@@ -44,16 +43,16 @@ function LoginForm() {
       console.log(error);
     }
   }
-  
 
   return (
-    <div>
+    <div style={{ marginTop: "200px", marginBottom: "150px" }}>
       <div className="login-container">
-        <form method="post" onSubmit={handleSubmit}>
-          <Logo />
+        <form method="post">
+          <center>
+            <Logo />
+          </center>
           <br />
-          <div>
-            <label>Username:</label>
+          <div className="mui-input">
             <input
               type="text"
               value={username}
@@ -64,8 +63,7 @@ function LoginForm() {
             />
           </div>
           <br />
-          <div>
-            <label>Password:</label>
+          <div className="mui-input">
             <input
               type="password"
               value={password}
@@ -76,9 +74,26 @@ function LoginForm() {
             />
           </div>
           <br />
-          <button type="submit" className="btn btn-outline-success">
+          <button
+            type="submit"
+            className="btn btn-outline-dark"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
+          <div className="login-info mt-3">
+            <span>
+              <center>
+                {" "}
+                username:<strong>atuny0</strong>{" "}
+              </center>
+
+              <center>
+                {" "}
+                password: <strong>9uQFF1Lh</strong>
+              </center>
+            </span>
+          </div>
         </form>
       </div>
     </div>
