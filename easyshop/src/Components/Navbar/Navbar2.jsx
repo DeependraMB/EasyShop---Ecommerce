@@ -16,7 +16,7 @@ const Navbar2 = () => {
 
   const [username, setUsername] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  //const [cartCount, setCartCount] = useState(0); // State for cart count
+  const [ setCartCount] = useState(0); // State for cart count
   const [cartData, setCartData] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState("");
